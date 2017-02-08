@@ -50,6 +50,8 @@ function convertHierarchyToTable (hierarchy) {
 	let cardName;
 	let itemName;
 	let itemType;
+	let prevTableLine = [,,,,];
+	let currTableLine;
 	hierarchy.lists.forEach((list) => {
 		listName = list.name;
 		list.cards.forEach((card) => {
@@ -57,7 +59,21 @@ function convertHierarchyToTable (hierarchy) {
 			card.items.forEach((item) => {
 				itemName = item.name;
 				itemType = item.type;
-				table.push([listName, cardName, itemName, itemType, 0]);
+				currTableLine = [
+					listName,
+					cardName,
+					itemName,
+					itemType,
+					0
+				];
+				table.push([
+					prevTableLine[0] === listName ? '' : listName,
+					prevTableLine[1] === cardName ? '' : cardName,
+					itemName,
+					itemType,
+					0
+				]);
+				prevTableLine = currTableLine;
 			});
 		});
 	});
