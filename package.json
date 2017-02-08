@@ -1,0 +1,27 @@
+{
+  "name": "trello2charts",
+  "version": "0.0.0",
+  "description": "Converts a Trello board to charts",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bguiz/trello2charts.git"
+  },
+  "keywords": [
+    "trello",
+    "chart",
+		"agile"
+  ],
+  "author": "bguiz",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bguiz/trello2charts/issues"
+  },
+  "homepage": "https://github.com/bguiz/trello2charts#readme",
+  "dependencies": {
+  }
+}
