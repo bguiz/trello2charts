@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 
+const xlsx = require('xlsx');
+
 const trelloBoardName = process.env.TRELLO_BOARD_NAME;
 const trelloData = require(`./tmp/${trelloBoardName}.trello.json`);
 
@@ -18,6 +20,7 @@ const itemListNameToItemType = {
 const hierarchy = convertTrelloToHierarchy(trelloData);
 const table = convertHierarchyToTable(hierarchy);
 const tableCsv = convertTableToCsv(table);
+const tableXlsx = convertTableToXlsx(table);
 fs.writeFile(`./tmp/${trelloBoardName}.hierarchy.json`,
 	JSON.stringify(hierarchy, undefined, 2), 'utf8', (err) => {
 	if (err) {
@@ -36,6 +39,41 @@ fs.writeFile(`./tmp/${trelloBoardName}.table.csv`,
 		console.err(err);
 	}
 });
+xlsx.writeFile(tableXlsx, `./tmp/${trelloBoardName}.table.xlsx`);
+
+function convertTableToXlsx (table) {
+	const worksheet = {};
+	table.forEach((row, rowIdx) => {
+		row.forEach((cell, cellIdx) => {
+			const cellId = xlsx.utils.encode_cell({
+				r: rowIdx,
+				c: cellIdx,
+			});
+			const cellData = {
+				v: cell,
+				t: (typeof cell === 'number') ? 'n' : 's',
+			};
+			worksheet[cellId] = cellData;
+		});
+	});
+	worksheet['!ref'] = xlsx.utils.encode_range({
+		s: {
+			r: 0,
+			c: 0,
+		},
+		e: {
+			r: table.length,
+			c: 5,
+		},
+	});
+	const workbook = {
+		SheetNames: ['main'],
+		Sheets: {
+			main: worksheet,
+		},
+	};
+	return workbook;
+}
 
 function convertTableToCsv (table) {
 	let out = table.map((entry) => {

@@ -14,7 +14,7 @@
   "keywords": [
     "trello",
     "chart",
-		"agile"
+    "agile"
   ],
   "author": "bguiz",
   "license": "GPL-3.0",
@@ -23,5 +23,6 @@
   },
   "homepage": "https://github.com/bguiz/trello2charts#readme",
   "dependencies": {
+    "xlsx": "^0.8.2"
   }
 }
